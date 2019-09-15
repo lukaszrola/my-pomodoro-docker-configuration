@@ -1,0 +1,15 @@
+version: "3.7"
+services: 
+  web-app:
+    image: rolalukasz1992/my-pomodoro:1.0
+    depends_on:
+      - question-provider
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_BACKEND_URL=http://localhost:8090
+  
+  question-provider:
+    image: rolalukasz1992/my-pomodoro-question-provider:0.0.1
+    ports: 
+      - "8090:8080"

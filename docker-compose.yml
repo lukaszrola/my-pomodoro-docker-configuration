@@ -1,5 +1,5 @@
 version: "3.7"
-services: 
+services:
   my-pomodoro-client:
     image: rolalukasz1992/my-pomodoro-client:0.2.0
     depends_on:
@@ -8,8 +8,21 @@ services:
       - "3000:3000"
     environment:
       - REACT_APP_BACKEND_URL=http://localhost:8090
-  
+
   my-pomodoro-words:
-    image: rolalukasz1992/my-pomodoro-words:0.0.5
-    ports: 
-      - "8090:8080"
+    image: rolalukasz1992/my-pomodoro-words:0.0.6
+    depends_on:
+      - words-database
+    ports:
+      - "8090:8090"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://words-database:5432/my_pomodoro
+      - SPRING_DATASOURCE_USERNAME=my_pomodoro
+      - SPRING_DATASOURCE_PASSWORD=tomatoe
+
+  words-database:
+    image: bitnami/postgresql:latest
+    environment:
+      - POSTGRESQL_USERNAME=my_pomodoro
+      - POSTGRESQL_PASSWORD=tomatoe
+      - POSTGRESQL_DATABASE=my_pomodoro
